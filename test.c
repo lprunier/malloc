@@ -1,26 +1,17 @@
 #include "include/malloc.h"
+#include <stdio.h>
 
 int main(void)
 {
-    char    *str;
-    int     i;
-	int		size;
-	int		boucle;
+	int		i;
+	char	*addr;
 
-	boucle = 150;
-	while (--boucle >= 0)
+	i = 0;
+	while (i < 1024)
 	{
-		size = 120;
-		str = (char *)ft_malloc(size + 1);
-		i = 0;
-		while (i < size)
-		{
-			str[i] = 'A';
-			i++;
-		}
-		str[i] = '\0';
-		// free(str);
-		// write(1, str, size);
+		addr = (char *)ft_malloc(1024);
+		addr[0] = 42;
+		i++;
 	}
 	return (0);
 }
