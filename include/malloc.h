@@ -6,12 +6,15 @@
 # include <sys/mman.h>
 # include <stdbool.h>
 
-# define GPS getpagesize()
-# define MAX 105
-# define TINY (size_t)((1 * GPS) / MAX)
-# define SMALL (size_t)((20 * GPS) / MAX)
-// # define TINY 6328
-// # define SMALL 12600
+// # define GPS getpagesize()
+// # define MAX 100
+// # define TINY (size_t)((1 * GPS) / MAX)
+// # define SMALL (size_t)((20 * GPS) / MAX)
+
+# define TINY 128
+# define SMALL 1024
+# define SIZE_TINY 8 * getpagesize()
+# define SIZE_SMALL 64 * getpagesize()
 
 /********************
 ******STRUCTURES*****
@@ -20,14 +23,13 @@
 /*
 ** Liste des allocations de mmap
 **      zone = pointeur de la zone
-**      type = 0 zone large, 1 zone tiny et small
+**      type = 0 zone large, 1 zone small, 2 zone tiny
 **      seczone = pointeur de la seconde zone si l'alloc est scindee
 */
 typedef struct      s_alloc
 {
     void            *zone;
-    bool            type;
-    void            *seczone;
+    int             type;
     struct s_alloc  *next;
 }                   t_alloc;
 
@@ -46,6 +48,11 @@ typedef struct          s_partition
 }                       t_partition;
 
 
+/********************
+******GLOBALE-S******
+********************/
+
+t_alloc *zone = NULL;
 
 /********************
 ******FONCTIONS******
@@ -86,5 +93,10 @@ void    *lp_add_small(t_alloc *zone);
 **  large.c
 */
 void    *lp_add_large(t_alloc *zone, size_t size);
+
+/*
+**  alloc.c
+*/
+void    *lp_alloc_tiny(size_t size);
 
 #endif
