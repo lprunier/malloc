@@ -14,12 +14,21 @@ void    *ft_malloc(size_t size)
             zone = lp_alloc_tiny();
             ret = lp_create_tiny(zone->zone, size);
         }
-        // (size <= SMALL && size > TINY) ? ret = lp_alloc_small(size) : 0;
+        else if (size <= SMALL)
+        {
+            zone = lp_alloc_small();
+            ret = lp_create_small(zone->zone, size);
+        }
     }
     else if (size <= TINY)
     {
         ret = lp_place_tiny(zone, size);
         ret = lp_create_tiny(ret, size);
+    }
+    else if (size <= SMALL)
+    {
+        ret = lp_place_small(zone, size);
+        ret = lp_create_small(ret, size);
     }
     // if (zone == NULL && size < SMALL)
     //     zone = lp_init_zone();
