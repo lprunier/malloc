@@ -61,6 +61,7 @@ void    *ft_malloc(size_t size);
 */
 t_alloc *lp_alloc_tiny(void);
 t_alloc *lp_alloc_small(void);
+t_alloc *lp_alloc_large(size_t size);
 
 /*
 **  create.c
@@ -73,5 +74,6 @@ void    *lp_create_small(void *addr, size_t size);
 */
 void    *lp_place_tiny(t_alloc *zone, size_t size);
 void    *lp_place_small(t_alloc *zone, size_t size);
+void    *lp_place_large(t_alloc *zone, size_t size);
 
 #endif

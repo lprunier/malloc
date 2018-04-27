@@ -99,3 +99,20 @@ void    *lp_place_small(t_alloc *zone, size_t size)
     part = copy->zone;
     return(lp_ret_small_place(copy, part, size));
 }
+
+void    *lp_place_large(t_alloc *zone, size_t size)
+{
+    t_alloc *copy;
+
+    copy = zone;
+    while (copy != NULL)
+    {
+        if (copy->next == NULL)
+        {
+            copy->next = lp_alloc_large(size);
+            return(copy->next->zone);
+        }
+        copy = copy->next;
+    }
+    return(NULL);
+}
