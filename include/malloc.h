@@ -26,8 +26,8 @@
 
 # define TINY 128
 # define SMALL 2048
-# define ST 30 * getpagesize()
-# define SS 300 * getpagesize()
+# define ST 8 * getpagesize()
+# define SS 64 * getpagesize()
 # define SP sizeof(t_partition)
 
 /*********************

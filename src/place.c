@@ -33,10 +33,13 @@ static void *lp_ret_tiny_place(t_alloc *copy, t_partition *part, size_t size)
 			}
 			else
 			{
-				while (copy->next != NULL)
-					copy = copy->next;
-				copy->next = lp_alloc_tiny(copy);
-				return (copy->next->zone);
+				if (copy->next == NULL)
+				{
+					copy->next = lp_alloc_tiny(copy);
+					return (copy->next->zone);
+				}
+				else
+					return (lp_place_tiny(copy->next, size));
 			}
 		}
 		part = part->next;
@@ -80,10 +83,13 @@ static void *lp_ret_small_place(t_alloc *copy, t_partition *part, size_t size)
 			}
 			else
 			{
-				while (copy->next != NULL)
-					copy = copy->next;
-				copy->next = lp_alloc_small(copy);
-				return (copy->next->zone);
+				if (copy->next == NULL)
+				{
+					copy->next = lp_alloc_small(copy);
+					return (copy->next->zone);
+				}
+				else
+					return (lp_place_small(copy->next, size));
 			}
 		}
 		part = part->next;

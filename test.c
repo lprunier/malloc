@@ -5,18 +5,21 @@ int main(void)
 {
 	int		i;
 	char	*addr;
+	t_partition	*ptr;
 
 	i = 0;
 	// addr = (char *)ft_malloc(3000);
 	// printf("%d - %p\n", i, addr);
 	// addr[0] = 42;
-	while (i < 1250)
+	while (i < 1024)
 	{
-		addr = (char *)ft_malloc(1024);
-		// printf("%d - %p\n", i, addr);
+		addr = (char *)ft_malloc(102);
 		addr[0] = 42;
-		// ft_free(addr);
+		// printf("%d - %p\n", i, addr);
+		ft_free(addr);
 		i++;
 	}
+	// ptr = g_zone->zone;
+	// printf("%p\n\n", ptr->next);
 	return (0);
 }

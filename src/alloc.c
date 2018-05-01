@@ -17,7 +17,6 @@ t_alloc *lp_alloc_tiny(t_alloc *prev)
 	void    *ptr;
 	t_alloc *zone;
 
-    printf("mmap\n");
 	ptr = mmap(0, ST, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	zone = (t_alloc *)ptr;
 	zone->next = NULL;
@@ -33,7 +32,6 @@ t_alloc *lp_alloc_small(t_alloc *prev)
 	void    *ptr;
     t_alloc *zone;
     
-    printf("mmap\n");
 	ptr = mmap(0, SS, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	zone = (t_alloc *)ptr;
 	zone->next = NULL;
@@ -50,7 +48,6 @@ t_alloc *lp_alloc_large(t_alloc *prev, size_t size)
 	t_alloc *zone;
 	long    max;
 
-    printf("mmap\n");
 	max = size + sizeof(t_alloc) + 16;
 	ptr = mmap(0, max, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	zone = (t_alloc *)ptr;
