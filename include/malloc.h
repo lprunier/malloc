@@ -104,4 +104,9 @@ void    *lp_place_large(t_alloc *zone, size_t size);
  */
 void    ft_free(void *ptr);
 
+/*
+ **  ft_realloc.c
+ */
+void	*ft_realloc(void *ptr, size_t size);
+
 #endif
