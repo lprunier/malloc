@@ -3,26 +3,22 @@
 #include <strings.h>
 #include <stdlib.h>
 
-#define M (2)
-
-void print(char *s)
+int main()
 {
-   write(1, s, strlen(s));
-}
-
-int     main()
-{
-   char *addr1;
-   char *addr3;
-
-   addr1 = (char*)ft_malloc(16*M);
-   strcpy(addr1, "Bonjours\n");
-   print(addr1);
-   printf("%p\n", addr1);
-   addr3 = (char*)ft_realloc(addr1, 128*M);
-   addr3[127*M] = 42;
-   print(addr3);
-   printf("%p\n", addr3);
+	void	*tmp;
+   ft_malloc(1000);
+   ft_malloc(1024);
+   ft_malloc(1060);
+   ft_malloc(100);
+   tmp = ft_malloc(102);
+   printf("%p\n", tmp);
+   ft_malloc(106);
+   ft_malloc(1024 * 32);
+   ft_free(tmp);
+//    ft_malloc(1024 * 1024);
+//    ft_malloc(1024 * 1024 * 16);
+//    ft_malloc(1024 * 1024 * 128);
+   show_alloc_mem();
    return (0);
 }
 

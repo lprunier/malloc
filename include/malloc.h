@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <sys/mman.h>
 # include <stdbool.h>
+# include <stdarg.h>
 
 # include <stdio.h>
 
@@ -108,5 +109,15 @@ void    ft_free(void *ptr);
  **  ft_realloc.c
  */
 void	*ft_realloc(void *ptr, size_t size);
+
+/*
+ **  show_alloc_mem.c
+ */
+void	show_alloc_mem(void);
+
+/*
+ **  print.c
+ */
+int		miniprintf(int fd, char *str, ...);
 
 #endif

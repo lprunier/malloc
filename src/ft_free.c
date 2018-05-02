@@ -12,7 +12,7 @@
 
 #include "../include/malloc.h"
 
-static void lp_free_large(void *ptr)
+static void	lp_free_large(void *ptr)
 {
 	t_alloc     *large;
 	int			i;
@@ -37,7 +37,7 @@ static void lp_free_large(void *ptr)
 	}
 }
 
-void        ft_free(void *ptr)
+void		ft_free(void *ptr)
 {
 	t_partition *tmp;
 	int         i;
@@ -48,8 +48,10 @@ void        ft_free(void *ptr)
 	tmp = ptr;
 	while (i <= sizeof(t_partition) + 16)
 	{
+		printf("free - %p\n", tmp->ptr);
 		if (tmp && tmp->ptr == ptr)
 		{
+			printf("free\n");
 			tmp->empty = 0;
 			return;
 		}
