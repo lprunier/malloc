@@ -3,7 +3,7 @@
 #include <strings.h>
 #include <stdlib.h>
 
-#define M (1024 * 1024)
+#define M (2)
 
 void print(char *s)
 {
@@ -18,9 +18,11 @@ int     main()
    addr1 = (char*)ft_malloc(16*M);
    strcpy(addr1, "Bonjours\n");
    print(addr1);
+   printf("%p\n", addr1);
    addr3 = (char*)ft_realloc(addr1, 128*M);
    addr3[127*M] = 42;
    print(addr3);
+   printf("%p\n", addr3);
    return (0);
 }
 
