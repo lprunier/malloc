@@ -38,9 +38,9 @@ static void     *lp_replace(t_partition *part, size_t size)
         part->size = size;
         return (part->ptr);
     }
-    ret = ft_malloc(size);
+    ret = malloc(size);
     lp_strcpy(ret, part->ptr);
-    ft_free(part->ptr);
+    free(part->ptr);
     return (ret);
 }
 
@@ -48,7 +48,7 @@ static void     *lp_find_place(void *ptr, size_t size)
 {
     t_partition *tmp;
     void        *ret;
-	int         i;
+	size_t      i;
 
 	i = 0;
 	tmp = ptr;
@@ -60,9 +60,9 @@ static void     *lp_find_place(void *ptr, size_t size)
                 return (ptr);
             if (tmp->next != NULL)
             {
-                ret = ft_malloc(size);
+                ret = malloc(size);
                 lp_strcpy(ret, ptr);
-                ft_free(ptr);
+                free(ptr);
                 return (ret);
             }
             else
@@ -74,7 +74,7 @@ static void     *lp_find_place(void *ptr, size_t size)
     return (NULL);
 }
 
-void            *ft_realloc(void *ptr, size_t size)
+void            *realloc(void *ptr, size_t size)
 {
     void    *ret;
 
@@ -83,9 +83,9 @@ void            *ft_realloc(void *ptr, size_t size)
         return (NULL);
     if (size > SMALL)
     {
-        ret = ft_malloc(size);
+        ret = malloc(size);
         lp_strcpy(ret, ptr);
-        ft_free(ptr);
+        free(ptr);
     }
     else
         ret = lp_find_place(ptr, size);

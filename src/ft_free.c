@@ -44,7 +44,7 @@ static void	lp_free_ts(t_alloc *zone, void *ptr)
 	}
 }
 
-void		ft_free(void *ptr)
+void		free(void *ptr)
 {
 	t_alloc	*zone;
 

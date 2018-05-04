@@ -3,6 +3,13 @@ ifeq ($(HOSTTYPE),)
 endif
 
 SRC = 	src/ft_malloc.c\
+		src/ft_realloc.c\
+		src/alloc.c\
+		src/create.c\
+		src/place.c\
+		src/print.c\
+		src/show_alloc_mem.c\
+		src/ft_free.c\
 
 OBJ = 	$(SRC:.c=.o)
 

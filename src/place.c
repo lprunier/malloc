@@ -26,7 +26,7 @@ static void *lp_ret_tiny_place(t_alloc *copy, t_partition *part, size_t size)
 			return (lp_ret_more(part));
 		else if (part->next == NULL)
 		{
-            if (((long)part + part->size + SP * 2 + size + part->size_empty + 15) < ((long)copy + ST))
+            if (((long)part + part->size + SP * 2 + size + part->size_empty + 15) < ((unsigned long)copy + ST))
 			{
                 part->next = (void *)((long)part + part->size + SP + part->size_empty);
 				return (part->next);
@@ -76,7 +76,7 @@ static void *lp_ret_small_place(t_alloc *copy, t_partition *part, size_t size)
 			return (lp_ret_more(part));
 		else if (part->next == NULL)
 		{
-            if (((long)part + part->size + SP * 2 + size + 15 + part->size_empty) < ((long)copy + SS))
+            if (((long)part + part->size + SP * 2 + size + 15 + part->size_empty) < ((unsigned long)copy + SS))
 			{
                 part->next = (void *)((long)part + part->size + SP + part->size_empty);
 				return (part->next);

@@ -1,12 +1,9 @@
-#include "include/malloc.h"
+// #include "include/malloc.h"
 
-int main()
+#include <unistd.h>
+
+int      main(void)
 {
-   ft_malloc(102);
-   ft_malloc(1024);
-   ft_malloc(1024 * 32);
-   ft_malloc(1024 * 1024);
-   ft_malloc(1024 * 1024 * 16);
-   show_alloc_mem();
+//    write(1, "hello\n", 6);
    return (0);
 }

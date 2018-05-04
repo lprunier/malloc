@@ -78,7 +78,7 @@ t_alloc *g_zone;
 /*
  **  ft_malloc.c
  */
-void    *ft_malloc(size_t size);
+void    *malloc(size_t size);
 
 /*
  **  alloc.c
@@ -103,12 +103,12 @@ void    *lp_place_large(t_alloc *zone, size_t size);
 /*
  **  ft_free.c
  */
-void    ft_free(void *ptr);
+void    free(void *ptr);
 
 /*
  **  ft_realloc.c
  */
-void	*ft_realloc(void *ptr, size_t size);
+void	*realloc(void *ptr, size_t size);
 
 /*
  **  show_alloc_mem.c
