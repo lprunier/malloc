@@ -26,7 +26,6 @@ static void	lp_free_large(t_alloc *zone)
 			zone->next->prev = zone->prev;
 		munmap(zone, zone->size);
 	}
-
 }
 
 static void	lp_free_ts(t_alloc *zone, void *ptr)
@@ -58,6 +57,7 @@ void		ft_free(void *ptr)
 				lp_free_large(zone);
 			else
 				lp_free_ts(zone, ptr);
+			return ;
 		}
 		zone = zone->next;
 	}
