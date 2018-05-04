@@ -12,51 +12,53 @@
 
 #include "../include/malloc.h"
 
-static void	lp_free_large(void *ptr)
+static void	lp_free_large(t_alloc *zone)
 {
-	t_alloc     *large;
-	int			i;
-
-	i = 0;
-	large = ptr;
-	while (i <= sizeof(t_alloc) + 16)
+	if (zone->prev == NULL && zone->next == NULL)
+		g_zone = NULL;
+	else if (zone->prev == NULL)
+		g_zone = zone->next;
+	else
 	{
-		if (large && large->zone == ptr)
+		if (zone->prev)
+			zone->prev->next = zone->next;
+		if (zone->next)
+			zone->next->prev = zone->prev;
+		munmap(zone, zone->size);
+	}
+
+}
+
+static void	lp_free_ts(t_alloc *zone, void *ptr)
+{
+	t_partition	*part;
+
+	part = zone->zone;
+	while (part != NULL)
+	{
+		if (part->ptr == ptr)
 		{
-			if (large->prev == NULL && large->next == NULL)
-				g_zone = NULL;
-			if (large->prev)
-				large->prev->next = large->next;
-			if (large->next)
-				large->next->prev = large->prev;
-			munmap(large, large->size);
-			return;
+			part->empty = 0;
+			return ;
 		}
-		large = large - 1;
-		i++;
+		part = part->next;
 	}
 }
 
 void		ft_free(void *ptr)
 {
-	t_partition *tmp;
-	int         i;
+	t_alloc	*zone;
 
-	if (ptr == NULL)
-		return;
-	i = 0;
-	tmp = ptr;
-	while (i <= sizeof(t_partition) + 16)
+	zone = g_zone;
+	while (zone != NULL)
 	{
-		printf("free - %p\n", tmp->ptr);
-		if (tmp && tmp->ptr == ptr)
+		if ((long)ptr > (long)zone && (long)ptr < (long)zone + zone->size)
 		{
-			printf("free\n");
-			tmp->empty = 0;
-			return;
+			if (zone->type == 0)
+				lp_free_large(zone);
+			else
+				lp_free_ts(zone, ptr);
 		}
-		tmp = tmp - 1;
-		i++;
+		zone = zone->next;
 	}
-	lp_free_large(ptr);
 }
