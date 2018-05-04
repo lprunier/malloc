@@ -79,6 +79,7 @@ t_alloc *g_zone;
  **  ft_malloc.c
  */
 void    *malloc(size_t size);
+void	*calloc(size_t count, size_t size);
 
 /*
  **  alloc.c

@@ -46,6 +46,7 @@ static void	lp_free_ts(t_alloc *zone, void *ptr)
 
 void		free(void *ptr)
 {
+	miniprintf(1, "\nEntree FREE\n");
 	t_alloc	*zone;
 
 	zone = g_zone;
@@ -57,8 +58,10 @@ void		free(void *ptr)
 				lp_free_large(zone);
 			else
 				lp_free_ts(zone, ptr);
+			miniprintf(1, "Sortie FREE 1\n");
 			return ;
 		}
 		zone = zone->next;
 	}
+	miniprintf(1, "Sortie FREE 2\n");
 }

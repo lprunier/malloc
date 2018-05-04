@@ -76,11 +76,15 @@ static void     *lp_find_place(void *ptr, size_t size)
 
 void            *realloc(void *ptr, size_t size)
 {
+    miniprintf(1, "\nEntree REALLOC\n");
     void    *ret;
 
     ret = ptr;
     if (ptr == NULL)
-        return (NULL);
+    {
+	    miniprintf(1, "Sortie REALLOC 1\n");
+        return (malloc(size));
+    }
     if (size > SMALL)
     {
         ret = malloc(size);
@@ -89,5 +93,6 @@ void            *realloc(void *ptr, size_t size)
     }
     else
         ret = lp_find_place(ptr, size);
+	miniprintf(1, "Sortie REALLOC 2\n");
     return (ret);
 }
