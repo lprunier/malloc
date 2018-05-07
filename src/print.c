@@ -1,58 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lprunier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/07 16:05:19 by lprunier          #+#    #+#             */
+/*   Updated: 2018/05/07 16:07:30 by lprunier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/malloc.h"
 
-static size_t   lp_strlen(const char *s)
+static void		lp_putptr_fd(unsigned long ptr, int fd)
 {
-	unsigned int	i;
-
-	i = 0;
-	while (s[i])
-		++i;
-	return (i);
-}
-
-static void	    lp_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
-
-static int      lp_nblen(int i)
-{
-    int len;
-
-    len = 1;
-    while ((i = i / 10) > 0)
-        len++;
-    return (len);
-}
-
-static void     lp_putstr_fd(char const *s, int fd)
-{
-	if (s == NULL)
-		return ;
-	write(fd, s, lp_strlen(s));
-}
-
-static void     lp_putnbr_fd(long n, int fd)
-{
-	unsigned long nb;
-
-	if (n < 0)
+	if (ptr < 16)
 	{
-		nb = -n;
-		lp_putchar_fd('-', fd);
+		if (ptr < 10)
+			lp_putchar_fd(ptr + '0', fd);
+		else
+			lp_putchar_fd(ptr - 10 + 'A', fd);
 	}
 	else
-		nb = n;
-	if (nb < 10)
-		lp_putchar_fd(nb + '0', fd);
-	else
 	{
-		lp_putnbr_fd(nb / 10, fd);
-		lp_putnbr_fd(nb % 10, fd);
+		lp_putptr_fd(ptr / 16, fd);
+		lp_putptr_fd(ptr % 16, fd);
 	}
 }
 
-static int      lp_printf_string(va_list pa, int fd)
+static int		lp_printf_string(va_list pa, int fd)
 {
 	char *s;
 
@@ -61,7 +37,7 @@ static int      lp_printf_string(va_list pa, int fd)
 	return (lp_strlen(s));
 }
 
-static int      lp_printf_nb(va_list pa, int fd)
+static int		lp_printf_nb(va_list pa, int fd)
 {
 	int	i;
 
@@ -70,7 +46,25 @@ static int      lp_printf_nb(va_list pa, int fd)
 	return (lp_nblen(i));
 }
 
-int             miniprintf(int fd, char *str, ...)
+static int		lp_printf_ptr(va_list pa, int fd)
+{
+	unsigned long	ptr;
+	int				i;
+
+	ptr = va_arg(pa, unsigned long);
+	lp_putchar_fd('0', fd);
+	lp_putchar_fd('x', fd);
+	lp_putptr_fd(ptr, fd);
+	i = 0;
+	while (ptr > 0)
+	{
+		ptr = ptr / 16;
+		i++;
+	}
+	return (2 + i);
+}
+
+int				miniprintf(int fd, char *str, ...)
 {
 	va_list	pa;
 	int		ret;
@@ -85,6 +79,8 @@ int             miniprintf(int fd, char *str, ...)
 			ret += lp_printf_string(pa, fd);
 		else if (str[i] == '%' && str[i + 1] == 'd' && ++i)
 			ret += lp_printf_nb(pa, fd);
+		else if (str[i] == '%' && str[i + 1] == 'p' && ++i)
+			ret += lp_printf_ptr(pa, fd);
 		else if (++ret)
 			lp_putchar_fd(str[i], fd);
 		i++;

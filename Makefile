@@ -10,6 +10,7 @@ SRC = 	src/ft_malloc.c\
 		src/print.c\
 		src/show_alloc_mem.c\
 		src/ft_free.c\
+		src/puts.c\
 
 OBJ = 	$(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: lprunier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 15:08:00 by lprunier          #+#    #+#             */
-/*   Updated: 2018/04/30 15:08:04 by lprunier         ###   ########.fr       */
+/*   Updated: 2018/05/07 15:56:18 by lprunier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static void	lp_free_ts(t_alloc *zone, void *ptr)
 	{
 		if (part->ptr == ptr)
 		{
-			// printf("\npart->ptr  =  %p\npart->empty = %i\n", part->ptr, part->empty);
 			part->empty = 0;
 			return ;
 		}
@@ -49,7 +48,6 @@ static void	lp_free_ts(t_alloc *zone, void *ptr)
 
 void		free(void *ptr)
 {
-	// return ;
 	t_alloc	*zone;
 
 	zone = g_zone;
@@ -58,13 +56,9 @@ void		free(void *ptr)
 		if ((long)ptr > (long)zone && (long)ptr < (long)zone + zone->size)
 		{
 			if (zone->type == 0)
-			{
 				lp_free_large(zone, ptr);
-			}
 			else
-			{
 				lp_free_ts(zone, ptr);
-			}
 			return ;
 		}
 		zone = zone->next;
