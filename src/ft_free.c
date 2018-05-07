@@ -12,8 +12,10 @@
 
 #include "../include/malloc.h"
 
-static void	lp_free_large(t_alloc *zone)
+static void	lp_free_large(t_alloc *zone, void *ptr)
 {
+	if (zone->zone != ptr)
+		return ;
 	if (zone->prev == NULL && zone->next == NULL)
 		g_zone = NULL;
 	else if (zone->prev == NULL)
@@ -37,6 +39,7 @@ static void	lp_free_ts(t_alloc *zone, void *ptr)
 	{
 		if (part->ptr == ptr)
 		{
+			// printf("\npart->ptr  =  %p\npart->empty = %i\n", part->ptr, part->empty);
 			part->empty = 0;
 			return ;
 		}
@@ -46,7 +49,7 @@ static void	lp_free_ts(t_alloc *zone, void *ptr)
 
 void		free(void *ptr)
 {
-	miniprintf(1, "\nEntree FREE\n");
+	// return ;
 	t_alloc	*zone;
 
 	zone = g_zone;
@@ -55,13 +58,15 @@ void		free(void *ptr)
 		if ((long)ptr > (long)zone && (long)ptr < (long)zone + zone->size)
 		{
 			if (zone->type == 0)
-				lp_free_large(zone);
+			{
+				lp_free_large(zone, ptr);
+			}
 			else
+			{
 				lp_free_ts(zone, ptr);
-			miniprintf(1, "Sortie FREE 1\n");
+			}
 			return ;
 		}
 		zone = zone->next;
 	}
-	miniprintf(1, "Sortie FREE 2\n");
 }

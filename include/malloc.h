@@ -58,7 +58,7 @@ typedef struct      s_alloc
 typedef struct          s_partition
 {
 	void                *ptr;
-    bool                empty;
+    int	                empty;
     size_t              size;
     int                 size_empty;
 	struct s_partition  *next;
@@ -78,6 +78,7 @@ t_alloc *g_zone;
 /*
  **  ft_malloc.c
  */
+void	lp_bzero(void *s, size_t n);
 void    *malloc(size_t size);
 void	*calloc(size_t count, size_t size);
 

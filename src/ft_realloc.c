@@ -1,12 +1,40 @@
 #include "../include/malloc.h"
 
-static char	    *lp_strcpy(char *dst, const char *src)
+static int      lp_find_size(void *src)
 {
-	char *ret;
+    t_alloc     *zone;
+    t_partition *part;
 
+    zone = g_zone;
+    while (zone != NULL)
+    {
+        if ((long)zone < (long)src && (long)zone + zone->size > (long)src)
+        {
+            if (zone->type == 0)
+                return (zone->size - 16 - sizeof(t_alloc));
+            part = zone->zone;
+            while (part != NULL)
+            {
+                if (part->ptr == src)
+                    return (part->size);
+                part = part->next;
+            }
+        }
+        zone = zone->next;
+    }
+    return (0);
+}
+
+static char	    *lp_memcpy(char *dst, const char *src, size_t len)
+{
+	char    *ret;
+    size_t  i;
+
+    i = -1;
 	ret = dst;
-	while ((*dst++ = *src++))
+	while (++i < len)
 	{
+        dst[i] = src[i];
 	}
 	return (ret);
 }
@@ -39,60 +67,61 @@ static void     *lp_replace(t_partition *part, size_t size)
         return (part->ptr);
     }
     ret = malloc(size);
-    lp_strcpy(ret, part->ptr);
+    lp_memcpy(ret, part->ptr, part->size);
     free(part->ptr);
     return (ret);
 }
 
 static void     *lp_find_place(void *ptr, size_t size)
 {
-    t_partition *tmp;
+    t_alloc     *zone;
+    t_partition *part;
     void        *ret;
-	size_t      i;
 
-	i = 0;
-	tmp = ptr;
-	while (i <= sizeof(t_partition) + 16)
-	{
-		if (tmp && tmp->ptr == ptr)
-		{
-            if (tmp->size >= size)
-                return (ptr);
-            if (tmp->next != NULL)
+    zone = g_zone;
+    while (zone != NULL)
+    {
+        if ((long)zone < (long)ptr && (long)zone + zone->size > (long)ptr)
+        {
+            part = zone->zone;
+            while (part != NULL)
             {
-                ret = malloc(size);
-                lp_strcpy(ret, ptr);
-                free(ptr);
-                return (ret);
+                if (part->ptr == ptr && part->next != NULL)
+                {
+                    ret = malloc(size);
+                    lp_memcpy(ret, ptr, part->size);
+                    free(ptr);
+                    return (ret);
+                }
+                else if (part->ptr == ptr)
+                    return (lp_replace(part, size));
+                part = part->next;
             }
-            else
-                return (lp_replace(tmp, size));
         }
-		tmp = tmp - 1;
-		i++;
+        zone = zone->next;
     }
-    return (NULL);
+    return (malloc(size));
 }
 
 void            *realloc(void *ptr, size_t size)
 {
-    miniprintf(1, "\nEntree REALLOC\n");
+    // miniprintf(1, "debut realloc - %d - %d\n", (int)ptr, size);
     void    *ret;
 
     ret = ptr;
     if (ptr == NULL)
     {
-	    miniprintf(1, "Sortie REALLOC 1\n");
+        // miniprintf(1, "End ptr null\n");
         return (malloc(size));
     }
     if (size > SMALL)
     {
         ret = malloc(size);
-        lp_strcpy(ret, ptr);
+        lp_memcpy(ret, ptr, lp_find_size(ptr));
         free(ptr);
     }
     else
         ret = lp_find_place(ptr, size);
-	miniprintf(1, "Sortie REALLOC 2\n");
+    // miniprintf(1, "End - %d\n", (int)ret);
     return (ret);
 }

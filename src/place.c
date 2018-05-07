@@ -14,7 +14,7 @@
 
 static void *lp_ret_more(t_partition *part)
 {
-    part->empty = 1;
+    part->empty = 2;
     return (part);
 }
 

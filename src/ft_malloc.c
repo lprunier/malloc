@@ -12,7 +12,7 @@
 
 #include "../include/malloc.h"
 
-static void	lp_bzero(void *s, size_t n)
+void		lp_bzero(void *s, size_t n)
 {
 	unsigned char *temp;
 
@@ -49,7 +49,6 @@ static void *lp_malloc_init(size_t size)
 
 void        *malloc(size_t size)
 {
-	miniprintf(1, "\nEntree MALLOC\n");
 	void    *ret;
 
 	if (g_zone == NULL)
@@ -66,17 +65,15 @@ void        *malloc(size_t size)
 	}
 	else
 		ret = lp_place_large(g_zone, size);
-	miniprintf(1, "Sortie MALLOC\n");
+	// show_alloc_mem();
 	return (ret);
 }
 
 void	*calloc(size_t count, size_t size)
 {
-	miniprintf(1, "\nEntree CALLOC\n");
 	void	*ptr;
 
 	ptr = malloc(count * size);
 	lp_bzero(ptr, count * size);
-	miniprintf(1, "Sortie CALLOC\n");
 	return (ptr);
 }

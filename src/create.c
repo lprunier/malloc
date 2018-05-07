@@ -18,7 +18,9 @@ void    *lp_create_tiny(void *addr, size_t size)
     void        *p;
 
 	link = (t_partition *)addr;
-	link->next = NULL;
+    if (link->empty == 2)
+        return (link->ptr);
+    link->next = NULL;
 	link->empty = 1;
     link->size = size;
     p = addr + sizeof(t_partition);
@@ -35,6 +37,8 @@ void    *lp_create_small(void *addr, size_t size)
     void        *p;
 
 	link = (t_partition *)addr;
+    if (link->empty == 2)
+        return (link->ptr);
 	link->next = NULL;
 	link->empty = 1;
     link->size = size;
