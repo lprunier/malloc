@@ -77,7 +77,7 @@ static void		*lp_find_place(void *ptr, size_t size)
 		}
 		zone = zone->next;
 	}
-	return (malloc(size));
+	return (NULL);
 }
 
 void			*realloc(void *ptr, size_t size)

@@ -76,7 +76,7 @@ static void	*lp_ret_small_place(t_alloc *copy, t_partition *part, size_t size)
 			}
 			else
 			{
-				if (copy->next == NULL)
+				if (copy->next != NULL)
 					return (lp_place_small(copy->next, size));
 				copy->next = lp_alloc_small(copy);
 				return (copy->next->zone);
