@@ -26,7 +26,7 @@ SRC = 	src/ft_malloc.c\
 
 OBJ = 	$(SRC:.c=.o)
 
-NAME = 	malloc
+NAME = 	libft_malloc.so
 
 CFLAGS = -Wall -Wextra -Werror
 
